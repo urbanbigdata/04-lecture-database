@@ -239,18 +239,6 @@ con = dbConnect(drv=RSQLite::SQLite(), dbname=filename)
 # Issue a query to read the data
 # my_data = dbGetQuery(con, &quot;SELECT * FROM crime&quot;)
 
-library(&quot;RSQLite&quot;)
-library(&quot;DBI&quot;)
-
-# Define database path
-filename = &quot;/Users/andyhong/Documents/vsp_bigdata/group_session/04-lecture/seattle_crime_data.db&quot;
-
-# Connect to db
-con = dbConnect(drv=RSQLite::SQLite(), dbname=filename)
-
-# Issue a query to read the data
-# my_data = dbGetQuery(con, &quot;SELECT * FROM crime&quot;)
-
 my_data = dbGetQuery(con, &quot;SELECT Year, Month, SummarizedOffenseDescription, DateReported, DistrictSector FROM crime WHERE Year &gt;= 2008 AND Year &lt;=2017&quot;)</code></pre>
 <p>Click <code>Run</code> and give the data frame name <code>seattle_crime</code>. <br><br></p>
 <p><strong>Congratulations! You successfully loaded your first database table into the R environment.</strong> <br><br></p>
