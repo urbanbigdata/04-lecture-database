@@ -1,0 +1,228 @@
+---
+title: "Urban Big Data Analytics - Lecture 4 Group Session: SQL database"
+author: "Andy Hong"
+date: "July 22, 2019"
+output:
+  html_document:
+    css: my_styles.css
+  pdf_document: default
+  word_document: default
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+<br>
+
+## Prerequisites
+
+For this group session, you will need SQLite. 
+Please download the following file and follow the instruction.
+
+For Windows:
+
+ + Download the Windows version sqlite from: <a href="http://urbanbigdata.github.io/04-lecture-database/group-session/sqlite3_windows.zip" download>sqlite3_windows.zip</a>
+ + Go to the `vsp_bigdata` folder and create a folder named `sqlite`.
+ + Unzip the downloaded file by double clicking it.
+ + Copy the unzipped files to the `sqlite` folder.
+ + Go to your windows search and type in `cmd`
+ + Type in `set PATH=%PATH%;C:\Users\[your user name]\Documents\vsp_bigdata\sqlite` <br>
+   ex) `set PATH=%PATH%;C:\Users\andyhong\Documents\vsp_bigdata\sqlite`<br>
+ + Check to see if your PATH is set correctly: type in `path`
+
+For Mac: 
+
+ + Download the Mac version sqlite from: <a href="http://urbanbigdata.github.io/04-lecture-database/group-session/sqlite3_mac.zip" download>sqlite3_mac.zip</a>
+ + Go to the `vsp_bigdata` folder and create a folder named `sqlite`.
+ + Unzip the downloaded file by double clicking it.
+ + Copy the unzipped files to the `sqlite` folder.
+ + Open up a terminal in your Finder by clicking `Applications` > `Utilities` > `Terminal`
+ + Type in `export PATH=$PATH:/Users/[your user name]/Documents/vsp_bigdata/sqlite` <br> 
+   ex) `export PATH=$PATH:/Users/andyhong/Documents/vsp_bigdata/sqlite`<br>
+ + Check to see if your path is set correctly: type in `echo $PATH`
+
+Get the Seattle crime data:
+
+ + First create your group session folder as this: `vsp_bigdata/group_session/04-lecture`.
+ + Download the Seattle crime data. It will take several minutes: <a href="http://urbanbigdata.github.io/04-lecture-database/group-session/Seattle_Police_Department_Police_Report_Incident.csv">http://urbanbigdata.github.io/04-lecture-database/group-session/Seattle_Police_Department_Police_Report_Incident.csv</a>
+ + Copy the downloaded file to the folder `vsp_bigdata/group_session/04-lecture`.
+
+<br>
+
+## Instruction
+
+### 1. Synopsis
+The purpose of this group session is to get you familiar with **database sysem**. There are two steps in this group session. First, you will create your database file and create a table under the database. Then you will import the Seattle Crime data (csv file) into the table. <br>
+
+Second, you will write a custom code to create an interface in Exploratory to your database file you just created. `RSQLite` package allows you to create a database connection and load the table into the R environment.  
+
+<br>
+
+### 2. Create a database table and import CSV file 
+
+First, open up the terminal and go to your group session folder.
+```{r, eval=F}
+
+# For Windows:
+cd C:\Users\[your user name]\Documents\vsp_bigdata\group_session\04-lecture
+
+# For Mac:
+cd /Users/[your user name]/Documents/vsp_bigdata/group_session/04-lecture
+
+```
+
+Run the SQLite program on a terminal and a command line.
+```{r, eval=F}
+sqlite3 seattle_crime_data.db
+
+```
+
+Create the first table and define database schema.
+```{r, eval=F}
+
+CREATE TABLE crime(
+  "ID" TEXT,
+  "GeneralOffenseNumber" TEXT,
+  "OffenseCode" TEXT,
+  "OffenseCodeExtension" TEXT,
+  "OffenseType" TEXT,
+  "SummaryOffenseCode" TEXT,
+  "SummarizedOffenseDescription" TEXT,
+  "DateReported" TEXT,
+  "OccurredDateorDateRangeStart" TEXT,
+  "OccurredDateRangeEnd" TEXT,
+  "HundredBlockLocation" TEXT,
+  "DistrictSector" TEXT,
+  "ZoneBeat" TEXT,
+  "CensusTract2000" TEXT,
+  "Longitude" TEXT,
+  "Latitude" TEXT,
+  "Location" TEXT,
+  "Month" TEXT,
+  "Year" TEXT
+);
+
+```
+
+Check the schema.
+```{r, eval=F}
+
+.schema crime
+
+```
+
+Import the csv into the database table.
+```{r, eval=F}
+
+.mode csv
+.import "/Users/andyhong/Documents/vsp_bigdata/group_session/04-lecture/Seattle_Police_Department_Police_Report_Incident.csv" crime
+
+```
+
+Turn on several options to format the table
+```{r, eval=F}
+
+.headers on
+.mode column
+
+# CREATE INDEX crime_year ON crime (Year);
+# DROP INDEX crime_year;
+# 
+# SELECT Year, COUNT(*) FROM crime GROUP BY Year;
+#  
+# 
+# SELECT Year,GeneralOffenseNumber,OffenseCode,OffenseType FROM crime LIMIT 10;
+
+
+```
+
+Query the top 10 rows from the database.
+```{r, eval=F}
+SELECT * FROM crime LIMIT 10;
+```
+
+Close the SQLite program.
+```{r, eval=F}
+.quit
+```
+
+<br>
+
+### 3. Interface with SQLite database in R
+
+You can use the RSQLite package to directly access your SQLite database file. <br>
+First, open up Exploratory, select R Packages, and install `RSQLite` package. <br>
+Click `+` on the Data Frames and select `R Script`. Copy and paste the following code. modify the file name to point to your SQLite database path.
+
+```{r, eval=F}
+
+library("RSQLite")
+library("DBI")
+
+# Define database path
+filename = "/Users/andyhong/Documents/vsp_bigdata/group_session/04-lecture/seattle_crime_data.db"
+
+# Connect to db
+con = dbConnect(drv=RSQLite::SQLite(), dbname=filename)
+
+# Issue a query to read the data
+# my_data = dbGetQuery(con, "SELECT * FROM crime")
+
+my_data = dbGetQuery(con, "SELECT Year, Month, SummarizedOffenseDescription, DateReported, DistrictSector FROM crime WHERE Year >= 2000 AND Year <=2014")
+
+```
+
+Click `Run` and give the data frame name `seattle_crime`. <br><br>
+
+**Congratulations! You successfully loaded your first database table into the R environment.** <br><br>
+
+
+
+### 4. Each group is asked to change the SQL code to complete the specific query:
+
+ + Group 1: Choose year 2006
+ + Group 2: Choose year 2006, and select only BURGLARY for the type of crime
+ + Group 3: Choose year 2008
+ + Group 4: Choose year 2008
+ + Group 5: Choose year 2010
+ + Group 6: Choose year 2010
+ + Group 7: Choose year 2012, and select only ASSAULT for the type of crime
+ + Group 8: Choose year 2012
+ + Group 9: Choose year 2013
+ + Group 10: Choose year 2013
+ 
+<br>
+
+### 5. Publish your data and codes
+
+Once you group completed the session, please publish your data and codes using the following steps.<br>
+
+1. Click the publish button as shown below:<br>
+<img src="http://urbanbigdata.github.io/04-lecture-database/group-session/images/step1.png" width="700px" style="border:1px solid #000000"><br><br><br>
+
+2. Write your title and select options as shown below:<br>
+<img src="http://urbanbigdata.github.io/04-lecture-database/group-session/images/step2.png" width="600px" style="border:1px solid #000000"><br><br>
+
+
+## Share your story
+
+ + Pick one person in your group to present your story. Each group has three minutes to present.
+ + All group members should work on the database table creation and loading.
+ + **Database the SQL command**: Describe what SQL code you changed to complete your group session.
+ + **Describe first 10 rows in the data**: Describe your data and show if you have the correct years of data.
+ + Please send the published URL to the course email (urbanbigdata2019@gmail.com). 
+ + <font color="red"><b>[IMPORTANT]</b></font> Please use the following email title format: <br>
+ `VSP BigData [lecture number] - [group number] - [presenter name]` <br>
+ ex), `VSP BigData Lecture 4 - Group 1 - Bill Gates` <br>
+ 
+<br><br><br>
+ 
+
+ 
+
+
+
+
