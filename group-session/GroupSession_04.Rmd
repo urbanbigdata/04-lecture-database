@@ -47,7 +47,7 @@ For Mac:
 Get the Seattle crime data:
 
  + First create your group session folder as this: `vsp_bigdata/group_session/04-lecture`.
- + Download the Seattle crime data. It will take several minutes: <a href="http://urbanbigdata.github.io/04-lecture-database/group-session/Seattle_Police_Department_Police_Report_Incident.csv">http://urbanbigdata.github.io/04-lecture-database/group-session/Seattle_Police_Department_Police_Report_Incident.csv</a>
+ + Download the Seattle crime data. It will take several minutes: <a href="http://urbanbigdata.github.io/04-lecture-database/group-session/seattle_crime.csv">http://urbanbigdata.github.io/04-lecture-database/group-session/seattle_crime.csv</a>
  + Copy the downloaded file to the folder `vsp_bigdata/group_session/04-lecture`.
 
 <br>
@@ -118,7 +118,7 @@ Import the csv into the database table.
 ```{r, eval=F}
 
 .mode csv
-.import "/Users/andyhong/Documents/vsp_bigdata/group_session/04-lecture/Seattle_Police_Department_Police_Report_Incident.csv" crime
+.import "/Users/[your user name]/Documents/vsp_bigdata/group_session/04-lecture/seattle_crime.csv" crime
 
 ```
 

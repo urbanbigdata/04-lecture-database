@@ -214,7 +214,7 @@ summary {
 <p>Get the Seattle crime data:</p>
 <ul>
 <li>First create your group session folder as this: <code>vsp_bigdata/group_session/04-lecture</code>.</li>
-<li>Download the Seattle crime data. It will take several minutes: <a href="http://urbanbigdata.github.io/04-lecture-database/group-session/Seattle_Police_Department_Police_Report_Incident.csv">http://urbanbigdata.github.io/04-lecture-database/group-session/Seattle_Police_Department_Police_Report_Incident.csv</a></li>
+<li>Download the Seattle crime data. It will take several minutes: <a href="http://urbanbigdata.github.io/04-lecture-database/group-session/seattle_crime.csv">http://urbanbigdata.github.io/04-lecture-database/group-session/seattle_crime.csv</a></li>
 <li>Copy the downloaded file to the folder <code>vsp_bigdata/group_session/04-lecture</code>.</li>
 </ul>
 <p><br></p>
@@ -263,7 +263,7 @@ cd /Users/[your user name]/Documents/vsp_bigdata/group_session/04-lecture</code>
 <pre class="r"><code>.schema crime</code></pre>
 <p>Import the csv into the database table.</p>
 <pre class="r"><code>.mode csv
-.import &quot;/Users/andyhong/Documents/vsp_bigdata/group_session/04-lecture/Seattle_Police_Department_Police_Report_Incident.csv&quot; crime</code></pre>
+.import &quot;/Users/[your user name]/Documents/vsp_bigdata/group_session/04-lecture/seattle_crime.csv&quot; crime</code></pre>
 <p>Turn on several options to format the table</p>
 <pre class="r"><code>.headers on
 .mode column
