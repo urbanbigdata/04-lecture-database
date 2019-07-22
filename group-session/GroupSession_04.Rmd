@@ -159,11 +159,11 @@ Click `+` on the Data Frames and select `R Script`. Copy and paste the following
 
 ```{r, eval=F}
 
-library("RSQLite")
-library("DBI")
+library(RSQLite)
+library(DBI)
 
 # Define database path
-filename = "/Users/andyhong/Documents/vsp_bigdata/group_session/04-lecture/seattle_crime_data.db"
+filename = "/Users/[your user name]/Documents/vsp_bigdata/group_session/04-lecture/seattle_crime_data.db"
 
 # Connect to db
 con = dbConnect(drv=RSQLite::SQLite(), dbname=filename)

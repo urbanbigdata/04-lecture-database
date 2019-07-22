@@ -284,11 +284,11 @@ cd /Users/[your user name]/Documents/vsp_bigdata/group_session/04-lecture</code>
 <div id="interface-with-sqlite-database-in-r" class="section level3">
 <h3>3. Interface with SQLite database in R</h3>
 <p>You can use the RSQLite package to directly access your SQLite database file. <br> First, open up Exploratory, select R Packages, and install <code>RSQLite</code> package. <br> Click <code>+</code> on the Data Frames and select <code>R Script</code>. Copy and paste the following code. modify the file name to point to your SQLite database path.</p>
-<pre class="r"><code>library(&quot;RSQLite&quot;)
-library(&quot;DBI&quot;)
+<pre class="r"><code>library(RSQLite)
+library(DBI)
 
 # Define database path
-filename = &quot;/Users/andyhong/Documents/vsp_bigdata/group_session/04-lecture/seattle_crime_data.db&quot;
+filename = &quot;/Users/[your user name]/Documents/vsp_bigdata/group_session/04-lecture/seattle_crime_data.db&quot;
 
 # Connect to db
 con = dbConnect(drv=RSQLite::SQLite(), dbname=filename)
